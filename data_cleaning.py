@@ -19,11 +19,20 @@ df['max_salary'] = del_salary.apply(lambda x: int(x.split('-')[1]))
 df['avg_salary'] = (df.min_salary+df.max_salary)/2
 
 #Company name text only
-df['company_txt'] = df.apply(lambda x: x['Company Name'] if x['Rating'] <0 else x['Company Name'][:-3], axis = 1)
+df['company_names'] = df.apply(lambda x: x['Company Name'] if x['Rating'] <0 else x['Company Name'][:-3], axis = 1)
+
+#delete unused columns
+df = df.drop(columns='Headquarters')
+df = df.drop(columns='Competitors')
+df = df.drop(columns='Type of ownership')
+df = df.drop(columns='Size')
+
+
 
 #state field 
 df['job_state'] = df['Location'].apply(lambda x: x.split(',')[1] if ','  in x.lower() else 0)
 df = df[df['job_state'] != 0]
+
 
 #parsing of job descriptions
 #python
